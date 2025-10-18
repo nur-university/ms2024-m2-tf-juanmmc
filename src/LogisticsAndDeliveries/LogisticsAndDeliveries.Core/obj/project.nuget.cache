@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "0dxwBheiEW0=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\PC\\source\\repos\\LogisticsAndDeliveries\\LogisticsAndDeliveries.Core\\LogisticsAndDeliveries.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\PC\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

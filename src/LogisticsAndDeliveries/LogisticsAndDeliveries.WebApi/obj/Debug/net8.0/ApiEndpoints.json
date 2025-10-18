@@ -1,0 +1,114 @@
+[
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DeliveryController",
+    "Method": "CreateDelivery",
+    "RelativePath": "api/Delivery",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Deliveries.CreateDelivery.CreateDeliveryCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
+    "Method": "CreatePackage",
+    "RelativePath": "api/Package",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Packages.CreatePackages.CreatePackageCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
+    "Method": "CancelPackage",
+    "RelativePath": "api/Package/cancel",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Packages.CancelPackage.CancelPackageCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
+    "Method": "MarkPackageDelivered",
+    "RelativePath": "api/Package/markDelivered",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Packages.MarkPackageDelivered.MarkPackageDeliveredCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
+    "Method": "MarkPackageFailed",
+    "RelativePath": "api/Package/markFailed",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Packages.MarkPackageFailed.MarkPackageFailedCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
+    "Method": "MarkPackageInTransit",
+    "RelativePath": "api/Package/markInTransit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Packages.MarkPackageInTransit.MarkPackageInTransitCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
+    "Method": "RegisterPackageDeliveryIncident",
+    "RelativePath": "api/Package/registerIncident",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Packages.RegisterPackageDeliveryIncident.RegisterPackageDeliveryIncidentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

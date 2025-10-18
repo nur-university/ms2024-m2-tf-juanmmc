@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Deliveries\CompleteDeliveryRoute\" />
+    <Folder Include="Deliveries\CancelDeliveryRoute\" />
+    <Folder Include="Deliveries\StartDeliveryRoute\" />
+    <Folder Include="Deliveries\ReorderDeliveryRouteStops\" />
+    <Folder Include="Deliveries\PlanDeliveryRoute\" />
+    <Folder Include="Deliveries\RegisterDeliveryLocation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LogisticsAndDeliveries.Domain\LogisticsAndDeliveries.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
