@@ -1,0 +1,20 @@
+﻿using LogisticsAndDeliveries.Core.Abstractions;
+using System;
+
+namespace LogisticsAndDeliveries.Domain.Packages
+{
+    public class DeliveryIncident : Entity
+    {
+        public DeliveryIncidentType Type { get; private set; }
+        public string Description { get; private set; }
+        public DateTime DateAndTimeOfDeliveryIncident { get; private set; }
+
+        public DeliveryIncident(Guid id, DeliveryIncidentType type, string description, DateTime dateAndTimeOfDeliveryIncident)
+            : base(id)
+        {
+            Type = type;
+            Description = description;
+            DateAndTimeOfDeliveryIncident = dateAndTimeOfDeliveryIncident;
+        }
+    }
+}

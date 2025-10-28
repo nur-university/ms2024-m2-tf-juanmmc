@@ -1,0 +1,58 @@
+﻿using LogisticsAndDeliveries.Domain.Deliveries;
+using LogisticsAndDeliveries.Domain.Packages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LogisticsAndDeliveries.Infrastructure.Persistence.DomainModel.Config
+{
+    internal class DeliveryRouteConfig : IEntityTypeConfiguration<DeliveryRoute>
+    {
+        public void Configure(EntityTypeBuilder<DeliveryRoute> builder)
+        {
+            builder.ToTable("deliveryRoute");
+
+            builder.HasKey(r => r.Id);
+
+            builder.Property(r => r.Id)
+                .HasColumnName("id");
+
+            builder.Property(r => r.ScheduledDate)
+                .HasColumnName("scheduledDate");
+
+            var statusConverter = new ValueConverter<DeliveryRouteStatus, string>(
+                statusEnumValue => statusEnumValue.ToString(),
+                status => (DeliveryRouteStatus)Enum.Parse(typeof(DeliveryRouteStatus), status)
+            );
+
+            builder.Property(r => r.Status)
+                .HasConversion(statusConverter)
+                .HasColumnName("status");
+
+            // Clave foránea a Delivery
+            builder.Property<Guid>("deliveryId");
+
+            // DeliveryStops como owned collection
+            builder.OwnsMany(r => r.Stops, stop =>
+            {
+                stop.WithOwner().HasForeignKey("deliveryRouteId");
+                stop.Property<Guid>("id"); // Shadow key
+                stop.HasKey("id");
+                stop.Property(s => s.PackageId).HasColumnName("packageId");
+                stop.Property(s => s.Order).HasColumnName("order");
+                stop.ToTable("deliveryStop");
+            });
+
+            builder.Metadata.FindNavigation(nameof(DeliveryRoute.Stops))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Ignore("_domainEvents");
+            builder.Ignore(x => x.DomainEvents);
+        }
+    }
+}

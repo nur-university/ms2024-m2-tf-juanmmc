@@ -5,14 +5,14 @@ namespace LogisticsAndDeliveries.Domain.Packages.Events
     public record PackageCreated : DomainEvent
     {
         public Guid PackageId { get; }
-        public DateTime ScheduleDeliveryDate { get; }
-        public Guid DeliveryId { get; }
+        public DateOnly ScheduledDate { get; }
+        public Guid DriverId { get; }
 
-        public PackageCreated(Guid packageId, DateTime scheduleDeliveryDate, Guid deliveryId)
+        public PackageCreated(Guid packageId, Guid driverId, DateOnly scheduledDate)
         {
             PackageId = packageId;
-            ScheduleDeliveryDate = scheduleDeliveryDate;
-            DeliveryId = deliveryId;
+            DriverId = driverId;
+            ScheduledDate = scheduledDate;
         }
 
         public PackageCreated() { }

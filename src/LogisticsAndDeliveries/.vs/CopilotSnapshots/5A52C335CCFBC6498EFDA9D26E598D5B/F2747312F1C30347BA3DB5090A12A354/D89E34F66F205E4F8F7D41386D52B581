@@ -1,0 +1,16 @@
+﻿using LogisticsAndDeliveries.Core.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LogisticsAndDeliveries.Domain.Packages
+{
+    public class Package : AggregateRoot
+    {
+        public Package(Guid id) : base(id)
+        {
+        }
+    }
+}

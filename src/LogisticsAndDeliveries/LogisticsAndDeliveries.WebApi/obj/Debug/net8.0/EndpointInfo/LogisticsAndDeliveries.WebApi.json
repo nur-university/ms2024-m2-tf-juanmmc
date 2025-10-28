@@ -5,7 +5,59 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Delivery": {
+    "/api/Delivery/getDelivery": {
+      "get": {
+        "tags": [
+          "Delivery"
+        ],
+        "parameters": [
+          {
+            "name": "deliveryId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Delivery/getDeliveriesByOrder": {
+      "get": {
+        "tags": [
+          "Delivery"
+        ],
+        "parameters": [
+          {
+            "name": "driverId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "scheduledDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Delivery/setDeliveryOrder": {
       "post": {
         "tags": [
           "Delivery"
@@ -14,17 +66,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDeliveryCommand"
+                "$ref": "#/components/schemas/SetDeliveryOrderCommand"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDeliveryCommand"
+                "$ref": "#/components/schemas/SetDeliveryOrderCommand"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateDeliveryCommand"
+                "$ref": "#/components/schemas/SetDeliveryOrderCommand"
               }
             }
           }
@@ -36,7 +88,258 @@
         }
       }
     },
-    "/api/Package": {
+    "/api/Delivery/cancel": {
+      "post": {
+        "tags": [
+          "Delivery"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelDeliveryCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelDeliveryCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelDeliveryCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Delivery/markFailed": {
+      "post": {
+        "tags": [
+          "Delivery"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkDeliveryFailedCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkDeliveryFailedCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkDeliveryFailedCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Delivery/markInTransit": {
+      "post": {
+        "tags": [
+          "Delivery"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkDeliveryInTransitCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkDeliveryInTransitCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkDeliveryInTransitCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Delivery/markCompleted": {
+      "post": {
+        "tags": [
+          "Delivery"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkDeliveryCompletedCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkDeliveryCompletedCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkDeliveryCompletedCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Delivery/registerIncident": {
+      "post": {
+        "tags": [
+          "Delivery"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDeliveryIncidentCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDeliveryIncidentCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDeliveryIncidentCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Driver/createDriver": {
+      "post": {
+        "tags": [
+          "Driver"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDriverCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDriverCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDriverCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Driver/getDriver": {
+      "get": {
+        "tags": [
+          "Driver"
+        ],
+        "parameters": [
+          {
+            "name": "driverId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Driver/updateDriverLocation": {
+      "post": {
+        "tags": [
+          "Driver"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDriverLocationCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDriverLocationCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDriverLocationCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Driver/getDrivers": {
+      "get": {
+        "tags": [
+          "Driver"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Package/createPackage": {
       "post": {
         "tags": [
           "Package"
@@ -67,154 +370,21 @@
         }
       }
     },
-    "/api/Package/markInTransit": {
-      "post": {
+    "/api/Package/getPackage": {
+      "get": {
         "tags": [
           "Package"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPackageInTransitCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPackageInTransitCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPackageInTransitCommand"
-              }
+        "parameters": [
+          {
+            "name": "packageId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Package/cancel": {
-      "post": {
-        "tags": [
-          "Package"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CancelPackageCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CancelPackageCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CancelPackageCommand"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Package/markDelivered": {
-      "post": {
-        "tags": [
-          "Package"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPackageDeliveredCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPackageDeliveredCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPackageDeliveredCommand"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Package/markFailed": {
-      "post": {
-        "tags": [
-          "Package"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPackageFailedCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPackageFailedCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/MarkPackageFailedCommand"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Package/registerIncident": {
-      "post": {
-        "tags": [
-          "Package"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterPackageDeliveryIncidentCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterPackageDeliveryIncidentCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterPackageDeliveryIncidentCommand"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -225,17 +395,17 @@
   },
   "components": {
     "schemas": {
-      "CancelPackageCommand": {
+      "CancelDeliveryCommand": {
         "type": "object",
         "properties": {
-          "id": {
+          "deliveryId": {
             "type": "string",
             "format": "uuid"
           }
         },
         "additionalProperties": false
       },
-      "CreateDeliveryCommand": {
+      "CreateDriverCommand": {
         "type": "object",
         "properties": {
           "id": {
@@ -256,31 +426,46 @@
             "type": "string",
             "format": "uuid"
           },
-          "packageLabel": {
-            "$ref": "#/components/schemas/PackageLabelDto"
-          }
-        },
-        "additionalProperties": false
-      },
-      "DeliveryAddressDto": {
-        "type": "object",
-        "properties": {
-          "address": {
+          "number": {
             "type": "string",
             "nullable": true
           },
-          "latitude": {
+          "patientId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "patientName": {
+            "type": "string",
+            "nullable": true
+          },
+          "patientPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "deliveryAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "deliveryLatitude": {
             "type": "number",
             "format": "double"
           },
-          "longitude": {
+          "deliveryLongitude": {
             "type": "number",
             "format": "double"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "driverId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
       },
-      "DeliveryIncidentType": {
+      "IncidentType": {
         "enum": [
           0,
           1,
@@ -291,73 +476,23 @@
         "type": "integer",
         "format": "int32"
       },
-      "MarkPackageDeliveredCommand": {
+      "MarkDeliveryCompletedCommand": {
         "type": "object",
         "properties": {
-          "id": {
+          "deliveryId": {
             "type": "string",
             "format": "uuid"
           },
-          "photoUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "receiverName": {
-            "type": "string",
-            "nullable": true
-          },
-          "receiverSignature": {
-            "type": "string",
-            "nullable": true
-          },
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "observations": {
+          "evidencePhoto": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "MarkPackageFailedCommand": {
+      "MarkDeliveryFailedCommand": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
-      "MarkPackageInTransitCommand": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PackageLabelDto": {
-        "type": "object",
-        "properties": {
-          "identificationNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "patientData": {
-            "$ref": "#/components/schemas/PatientDataDto"
-          },
-          "deliveryAddress": {
-            "$ref": "#/components/schemas/DeliveryAddressDto"
-          },
-          "scheduledDeliveryDate": {
-            "type": "string",
-            "format": "date-time"
-          },
           "deliveryId": {
             "type": "string",
             "format": "uuid"
@@ -365,45 +500,61 @@
         },
         "additionalProperties": false
       },
-      "PatientDataDto": {
+      "MarkDeliveryInTransitCommand": {
         "type": "object",
         "properties": {
-          "patientId": {
+          "deliveryId": {
             "type": "string",
-            "nullable": true
-          },
-          "name": {
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegisterDeliveryIncidentCommand": {
+        "type": "object",
+        "properties": {
+          "deliveryId": {
             "type": "string",
-            "nullable": true
+            "format": "uuid"
           },
-          "email": {
-            "type": "string",
-            "nullable": true
+          "incidentType": {
+            "$ref": "#/components/schemas/IncidentType"
           },
-          "phone": {
+          "incidentDescription": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "RegisterPackageDeliveryIncidentCommand": {
+      "SetDeliveryOrderCommand": {
         "type": "object",
         "properties": {
-          "id": {
+          "deliveryId": {
             "type": "string",
             "format": "uuid"
           },
-          "type": {
-            "$ref": "#/components/schemas/DeliveryIncidentType"
-          },
-          "description": {
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateDriverLocationCommand": {
+        "type": "object",
+        "properties": {
+          "driverId": {
             "type": "string",
-            "nullable": true
+            "format": "uuid"
           },
-          "dateAndTimeOfDeliveryIncident": {
-            "type": "string",
-            "format": "date-time"
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false

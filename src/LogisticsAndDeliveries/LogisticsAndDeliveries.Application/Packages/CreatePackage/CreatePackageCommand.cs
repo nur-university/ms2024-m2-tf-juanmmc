@@ -1,13 +1,7 @@
-﻿using LogisticsAndDeliveries.Application.Packages.CreatePackage;
-using LogisticsAndDeliveries.Core.Results;
+﻿using LogisticsAndDeliveries.Core.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LogisticsAndDeliveries.Application.Packages.CreatePackages
+namespace LogisticsAndDeliveries.Application.Packages.CreatePackage
 {
-    public record CreatePackageCommand(Guid Id, PackageLabelDto PackageLabel) : IRequest<Result<Guid>>;
+    public record CreatePackageCommand(Guid Id, string Number, Guid PatientId, string PatientName, string PatientPhone, string DeliveryAddress, double DeliveryLatitude, double DeliveryLongitude, DateOnly ScheduledDate, Guid DriverId) : IRequest<Result<Guid>>;
 }

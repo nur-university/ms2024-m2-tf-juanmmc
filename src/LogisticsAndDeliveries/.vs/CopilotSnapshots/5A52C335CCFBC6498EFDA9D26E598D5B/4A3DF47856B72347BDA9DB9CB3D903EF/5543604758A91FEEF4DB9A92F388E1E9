@@ -1,0 +1,13 @@
+﻿using System;
+
+namespace LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities
+{
+    internal class DeliveryLocationPersistenceModel
+    {
+        public Guid Id { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public DateTime DateAndTimeOfLocation { get; set; }
+        public Guid DeliveryId { get; set; }
+    }
+}

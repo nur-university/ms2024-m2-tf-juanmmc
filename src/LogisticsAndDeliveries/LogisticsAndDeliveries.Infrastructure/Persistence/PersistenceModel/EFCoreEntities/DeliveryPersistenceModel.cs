@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities
@@ -12,21 +10,38 @@ namespace LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFC
         [Column("id")]
         public Guid Id { get; set; }
 
-        [Column("name")]
-        [MaxLength(200)]
         [Required]
-        public required string Name { get; set; }
+        [Column("packageId")]
+        public required Guid PackageId { get; set; }
+        public required PackagePersistenceModel Package { get; set; }
 
-        [Column("locationLatitude", TypeName = "double precision")]
-        public double? LocationLatitude { get; set; }
+        [Required]
+        [Column("driverId")]
+        public required Guid DriverId { get; set; }
+        public required DriverPersistenceModel Driver { get; set; }
 
-        [Column("locationLongitude", TypeName = "double precision")]
-        public double? LocationLongitude { get; set; }
+        [Required]
+        [Column("scheduledDate", TypeName = "date")]
+        public DateOnly ScheduledDate { get; set; }
 
-        [Column("locationDate")]
-        public DateTime? LocationDate { get; set; }
+        [Column("evidencePhoto")]
+        public string? EvidencePhoto { get; set; }
 
-        public required ICollection<PackageAssignmentPersistenceModel> PackageAssignments { get; set; }
-        public required ICollection<DeliveryRoutePersistenceModel> DeliveryRoutes { get; set; }
+        [Column("incidentType")]
+        public string? IncidentType { get; set; }
+
+        [Column("incidentDescription")]
+        public string? IncidentDescription { get; set; }
+
+        [Required]
+        [Column("order", TypeName = "integer")]
+        public int Order { get; set; }
+
+        [Required]
+        [Column("status")]
+        public required string Status { get; set; }
+
+        [Column("updatedAt")]
+        public DateTime? UpdatedAt { get; set; }
     }
 }

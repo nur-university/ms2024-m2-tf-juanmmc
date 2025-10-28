@@ -1,0 +1,55 @@
+﻿using LogisticsAndDeliveries.Core.Abstractions;
+using LogisticsAndDeliveries.Domain.Deliveries.ValueObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LogisticsAndDeliveries.Domain.Deliveries
+{
+    public class DeliveryRoute : Entity
+    {
+        public DateTime ScheduledDate { get; }
+        public DeliveryRouteStatus Status { get; private set; }
+        private readonly List<DeliveryStop> _stops = new();
+        public IReadOnlyCollection<DeliveryStop> Stops => _stops.AsReadOnly();
+
+        public DeliveryRoute(Guid id, DateTime scheduledDate, DeliveryRouteStatus status, IEnumerable<DeliveryStop> stops) : base(id)
+        {
+            ScheduledDate = scheduledDate;
+            Status = status;
+            _stops.AddRange(stops);
+        }
+
+        public void Start()
+        {
+            if (Status != DeliveryRouteStatus.Planned)
+                throw new DomainException(DeliveryErrors.InvalidRouteStart);
+            Status = DeliveryRouteStatus.InProgress;
+        }
+
+        public void Complete()
+        {
+            if (Status != DeliveryRouteStatus.InProgress)
+                throw new DomainException(DeliveryErrors.InvalidRouteComplete);
+            Status = DeliveryRouteStatus.Completed;
+        }
+
+        public void Cancel()
+        {
+            if (Status == DeliveryRouteStatus.Completed || Status == DeliveryRouteStatus.Cancelled)
+                throw new DomainException(DeliveryErrors.InvalidRouteCancel);
+            Status = DeliveryRouteStatus.Cancelled;
+        }
+
+        public void ReorderStops(List<Guid> orderedPackageIds)
+        {
+            if (orderedPackageIds.Count != _stops.Count || !_stops.All(s => orderedPackageIds.Contains(s.PackageId)))
+                throw new DomainException(DeliveryErrors.InvalidStopsReorder);
+            var newStops = orderedPackageIds
+                .Select((packageId, index) => new DeliveryStop(packageId, index + 1))
+                .ToList();
+            _stops.Clear();
+            _stops.AddRange(newStops);
+        }
+    }
+}

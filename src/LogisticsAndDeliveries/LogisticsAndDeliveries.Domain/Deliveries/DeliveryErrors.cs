@@ -1,52 +1,37 @@
-using LogisticsAndDeliveries.Core.Results;
+Ôªøusing LogisticsAndDeliveries.Core.Results;
 
 namespace LogisticsAndDeliveries.Domain.Deliveries
 {
     public static class DeliveryErrors
     {
-        public static readonly Error PackageAlreadyAssigned = new(
-            "Delivery.PackageAlreadyAssigned",
-            "El paquete ya est· asignado para esa fecha.",
+        public static readonly Error InvalidOrderValue = new(
+            "Delivery.InvalidOrderValue", 
+            "El valor del orden no puede ser cero o negativo.", 
             ErrorType.Failure);
 
-        public static readonly Error NoPackagesAssignedForDate = new(
-            "Delivery.NoPackagesAssignedForDate",
-            "No hay paquetes asignados para la fecha especificada.",
+        public static readonly Error InvalidStatusTransition = new(
+            "Delivery.InvalidStatusTransition", 
+            "La transici√≥n de estado no es v√°lida.", 
             ErrorType.Failure);
 
-        public static readonly Error RouteAlreadyPlannedForDate = new(
-            "Delivery.RouteAlreadyPlannedForDate",
-            "Ya existe una ruta planificada para la fecha especificada.",
+        public static readonly Error CannotCancelCompletedDelivery = new(
+            "Delivery.CannotCancelDelivered", 
+            "No se puede cancelar un paquete ya entregado.", 
             ErrorType.Failure);
 
-        public static readonly Error RouteNotFound = new(
-            "Delivery.RouteNotFound",
-            "Ruta no encontrada.",
+        public static readonly Error InvalidIncidentDate = new(
+            "Delivery.InvalidIncidentDate",
+            "No se puede registrar incidente fuera de la fecha de entrega programada.",
+            ErrorType.Failure);
+
+        public static readonly Error CannotRegisterIncidentInCurrentStatus = new(
+            "Delivery.CannotRegisterIncident",
+            "No se puede registrar el incidente a un paquete con estado de entrega diferente a fallido.",
+            ErrorType.Failure);
+
+        public static readonly Error DeliveryNotFound = new(
+            "Delivery.NotFound",
+            "La entrega solicitada no fue encontrada.",
             ErrorType.NotFound);
-
-        public static readonly Error InvalidRouteStart = new(
-            "Delivery.InvalidRouteStart",
-            "Solo se puede iniciar una ruta en estado 'Planned'.",
-            ErrorType.Failure);
-
-        public static readonly Error InvalidRouteComplete = new(
-            "Delivery.InvalidRouteComplete",
-            "Solo se puede completar una ruta en estado 'InProgress'.",
-            ErrorType.Failure);
-
-        public static readonly Error InvalidRouteCancel = new(
-            "Delivery.InvalidRouteCancel",
-            "No se puede cancelar una ruta completada o ya cancelada.",
-            ErrorType.Failure);
-
-        public static readonly Error InvalidStopsReorder = new(
-            "Delivery.InvalidStopsReorder",
-            "El reordenamiento de paradas es inv·lido. Los paquetes no coinciden con los de la ruta.",
-            ErrorType.Failure);
-
-        public static readonly Error CannotAssignPackageAfterRoutePlanned = new(
-            "Delivery.CannotAssignPackageAfterRoutePlanned",
-            "No se puede asignar un paquete para una fecha que ya tiene una ruta planificada.",
-            ErrorType.Failure);
     }
 }

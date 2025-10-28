@@ -30,13 +30,11 @@ namespace LogisticsAndDeliveries.Infrastructure.Persistence.Repositories
             {
                 return await _dbContext.Package
                     .AsNoTracking()
-                    .Include(p => p.DeliveryIncidents)
                     .FirstOrDefaultAsync(i => i.Id == id);
             }
             else
             {
                 return await _dbContext.Package
-                    .Include(p => p.DeliveryIncidents)
                     .FirstOrDefaultAsync(i => i.Id == id);
             }
         }

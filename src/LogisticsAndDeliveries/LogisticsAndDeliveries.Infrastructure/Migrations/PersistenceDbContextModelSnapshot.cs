@@ -22,40 +22,6 @@ namespace LogisticsAndDeliveries.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryIncidentPersistenceModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("description");
-
-                    b.Property<Guid>("PackageId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("packageId");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)")
-                        .HasColumnName("type");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PackageId");
-
-                    b.ToTable("deliveryIncident");
-                });
-
             modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryPersistenceModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -63,17 +29,70 @@ namespace LogisticsAndDeliveries.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateTime?>("LocationDate")
+                    b.Property<Guid>("DriverId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("driverId");
+
+                    b.Property<string>("EvidencePhoto")
+                        .HasColumnType("text")
+                        .HasColumnName("evidencePhoto");
+
+                    b.Property<string>("IncidentDescription")
+                        .HasColumnType("text")
+                        .HasColumnName("incidentDescription");
+
+                    b.Property<string>("IncidentType")
+                        .HasColumnType("text")
+                        .HasColumnName("incidentType");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer")
+                        .HasColumnName("order");
+
+                    b.Property<Guid>("PackageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("packageId");
+
+                    b.Property<DateOnly>("ScheduledDate")
+                        .HasColumnType("date")
+                        .HasColumnName("scheduledDate");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("locationDate");
+                        .HasColumnName("updatedAt");
 
-                    b.Property<double?>("LocationLatitude")
-                        .HasColumnType("double precision")
-                        .HasColumnName("locationLatitude");
+                    b.HasKey("Id");
 
-                    b.Property<double?>("LocationLongitude")
+                    b.HasIndex("DriverId");
+
+                    b.HasIndex("PackageId");
+
+                    b.ToTable("delivery");
+                });
+
+            modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DriverPersistenceModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("LastLocationUpdate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lastLocationUpdate");
+
+                    b.Property<double?>("Latitude")
                         .HasColumnType("double precision")
-                        .HasColumnName("locationLongitude");
+                        .HasColumnName("latitude");
+
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("double precision")
+                        .HasColumnName("longitude");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -83,33 +102,7 @@ namespace LogisticsAndDeliveries.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("delivery");
-                });
-
-            modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryRoutePersistenceModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<Guid>("DeliveryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("deliveryId");
-
-                    b.Property<DateTime>("ScheduledDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("scheduledDate");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeliveryId");
-
-                    b.ToTable("deliveryRoute");
+                    b.ToTable("driver");
                 });
 
             modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.PackagePersistenceModel", b =>
@@ -125,10 +118,6 @@ namespace LogisticsAndDeliveries.Infrastructure.Migrations
                         .HasColumnType("character varying(300)")
                         .HasColumnName("deliveryAddress");
 
-                    b.Property<Guid>("DeliveryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("deliveryId");
-
                     b.Property<double>("DeliveryLatitude")
                         .HasColumnType("double precision")
                         .HasColumnName("deliveryLatitude");
@@ -137,41 +126,14 @@ namespace LogisticsAndDeliveries.Infrastructure.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("deliveryLongitude");
 
-                    b.Property<DateTime?>("EvidenceDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("evidenceDate");
-
-                    b.Property<string>("EvidenceObservations")
-                        .HasColumnType("text")
-                        .HasColumnName("evidenceObservations");
-
-                    b.Property<string>("EvidencePhotoUrl")
-                        .HasColumnType("text")
-                        .HasColumnName("evidencePhotoUrl");
-
-                    b.Property<string>("EvidenceReceiverName")
-                        .HasColumnType("text")
-                        .HasColumnName("evidenceReceiverName");
-
-                    b.Property<string>("EvidenceReceiverSignature")
-                        .HasColumnType("text")
-                        .HasColumnName("evidenceReceiverSignature");
-
-                    b.Property<string>("IdentificationNumber")
+                    b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
-                        .HasColumnName("identificationNumber");
+                        .HasColumnName("number");
 
-                    b.Property<string>("PatientEmail")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("patientEmail");
-
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uuid")
                         .HasColumnName("patientId");
 
                     b.Property<string>("PatientName")
@@ -186,116 +148,28 @@ namespace LogisticsAndDeliveries.Infrastructure.Migrations
                         .HasColumnType("character varying(15)")
                         .HasColumnName("patientPhone");
 
-                    b.Property<DateTime>("ScheduledDeliveryDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("scheduledDeliveryDate");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)")
-                        .HasColumnName("status");
-
                     b.HasKey("Id");
 
                     b.ToTable("package");
                 });
 
-            modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryIncidentPersistenceModel", b =>
+            modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryPersistenceModel", b =>
                 {
+                    b.HasOne("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DriverPersistenceModel", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.PackagePersistenceModel", "Package")
-                        .WithMany("DeliveryIncidents")
+                        .WithMany()
                         .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Driver");
+
                     b.Navigation("Package");
-                });
-
-            modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryPersistenceModel", b =>
-                {
-                    b.OwnsMany("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.PackageAssignmentPersistenceModel", "PackageAssignments", b1 =>
-                        {
-                            b1.Property<Guid>("DeliveryId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("deliveryId");
-
-                            b1.Property<Guid>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.Property<Guid>("PackageId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("packageId");
-
-                            b1.Property<DateTime>("ScheduledDate")
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("scheduledDate");
-
-                            b1.HasKey("DeliveryId", "Id");
-
-                            b1.ToTable("packageAssignment");
-
-                            b1.WithOwner("Delivery")
-                                .HasForeignKey("DeliveryId");
-
-                            b1.Navigation("Delivery");
-                        });
-
-                    b.Navigation("PackageAssignments");
-                });
-
-            modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryRoutePersistenceModel", b =>
-                {
-                    b.HasOne("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryPersistenceModel", "Delivery")
-                        .WithMany("DeliveryRoutes")
-                        .HasForeignKey("DeliveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsMany("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryStopPersistenceModel", "DeliveryStops", b1 =>
-                        {
-                            b1.Property<Guid>("DeliveryRouteId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("deliveryRouteId");
-
-                            b1.Property<Guid>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.Property<int>("Order")
-                                .HasColumnType("integer")
-                                .HasColumnName("order");
-
-                            b1.Property<Guid>("PackageId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("packageId");
-
-                            b1.HasKey("DeliveryRouteId", "Id");
-
-                            b1.ToTable("deliveryStop");
-
-                            b1.WithOwner("DeliveryRoute")
-                                .HasForeignKey("DeliveryRouteId");
-
-                            b1.Navigation("DeliveryRoute");
-                        });
-
-                    b.Navigation("Delivery");
-
-                    b.Navigation("DeliveryStops");
-                });
-
-            modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.DeliveryPersistenceModel", b =>
-                {
-                    b.Navigation("DeliveryRoutes");
-                });
-
-            modelBuilder.Entity("LogisticsAndDeliveries.Infrastructure.Persistence.PersistenceModel.EFCoreEntities.PackagePersistenceModel", b =>
-                {
-                    b.Navigation("DeliveryIncidents");
                 });
 #pragma warning restore 612, 618
         }

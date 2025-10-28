@@ -1,7 +1,15 @@
-﻿using LogisticsAndDeliveries.Application.Deliveries.CreateDelivery;
+﻿using LogisticsAndDeliveries.Application.Deliveries.CancelDelivery;
+using LogisticsAndDeliveries.Application.Deliveries.GetDeliveries;
+using LogisticsAndDeliveries.Application.Deliveries.GetDelivery;
+using LogisticsAndDeliveries.Application.Deliveries.MarkDeliveryCompleted;
+using LogisticsAndDeliveries.Application.Deliveries.MarkDeliveryFailed;
+using LogisticsAndDeliveries.Application.Deliveries.MarkDeliveryInTransit;
+using LogisticsAndDeliveries.Application.Deliveries.RegisterDeliveryIncident;
+using LogisticsAndDeliveries.Core.Results;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using LogisticsAndDeliveries.WebApi.Extensions;
+using LogisticsAndDeliveries.Application.Deliveries.SetDeliveryOrder;
 
 namespace LogisticsAndDeliveries.WebApi.Controllers
 {
@@ -16,12 +24,60 @@ namespace LogisticsAndDeliveries.WebApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateDelivery([FromBody] CreateDeliveryCommand request)
+        [HttpGet("getDelivery")]
+        public async Task<IActionResult> GetDelivery([FromQuery] Guid deliveryId)
+        {
+            var result = await _mediator.Send(new GetDeliveryQuery(deliveryId));
+            return result.ToActionResult(this);
+        }
+
+        [HttpGet("getDeliveriesByOrder")]
+        public async Task<IActionResult> GetDeliveriesByOrder([FromQuery] Guid driverId, [FromQuery] DateOnly scheduledDate)
+        {
+            var result = await _mediator.Send(new GetDeliveriesByOrderQuery(driverId, scheduledDate));
+            return result.ToActionResult(this);
+        }
+
+        [HttpPost("setDeliveryOrder")]
+        public async Task<IActionResult> SetDeliveryOrder([FromBody] SetDeliveryOrderCommand request)
         {
             var result = await _mediator.Send(request);
+            return result.ToActionResult(this);
+        }
 
-            return Ok(result);
+        [HttpPost("cancel")]
+        public async Task<IActionResult> CancelDelivery([FromBody] CancelDeliveryCommand request)
+        {
+            var result = await _mediator.Send(request);
+            return result.ToActionResult(this);
+        }
+
+        [HttpPost("markFailed")]
+        public async Task<IActionResult> MarkDeliveryFailed([FromBody] MarkDeliveryFailedCommand request)
+        {
+            var result = await _mediator.Send(request);
+            return result.ToActionResult(this);
+        }
+
+        [HttpPost("markInTransit")]
+        public async Task<IActionResult> MarkDeliveryInTransit([FromBody] MarkDeliveryInTransitCommand request)
+        {
+            var result = await _mediator.Send(request);
+            return result.ToActionResult(this);
+        }
+
+        [HttpPost("markCompleted")]
+        public async Task<IActionResult> MarkDeliveryCompleted([FromBody] MarkDeliveryCompletedCommand request)
+        {
+            var result = await _mediator.Send(request);
+            return result.ToActionResult(this);
+        }
+
+        [HttpPost("registerIncident")]
+        public async Task<IActionResult> RegisterDeliveryIncident([FromBody] RegisterDeliveryIncidentCommand request)
+        {
+            var result = await _mediator.Send(request);
+            return result.ToActionResult(this);
         }
     }
 }

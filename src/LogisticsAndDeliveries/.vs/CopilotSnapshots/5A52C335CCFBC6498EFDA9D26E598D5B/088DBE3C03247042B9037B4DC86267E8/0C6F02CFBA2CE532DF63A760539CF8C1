@@ -1,0 +1,42 @@
+﻿using LogisticsAndDeliveries.Core.Results;
+
+namespace LogisticsAndDeliveries.Domain.Deliveries
+{
+    public static class DeliveryErrors
+    {
+        public static readonly Error PackageAlreadyAssigned = new(
+            "Delivery.PackageAlreadyAssigned",
+            "El paquete ya está asignado para esa fecha.",
+            ErrorType.Failure);
+
+        public static readonly Error NoPackagesAssignedForDate = new(
+            "Delivery.NoPackagesAssignedForDate",
+            "No hay paquetes asignados para la fecha especificada.",
+            ErrorType.Failure);
+
+        public static readonly Error RouteAlreadyPlannedForDate = new(
+            "Delivery.RouteAlreadyPlannedForDate",
+            "Ya existe una ruta planificada para la fecha especificada.",
+            ErrorType.Failure);
+
+        public static readonly Error RouteNotFound = new(
+            "Delivery.RouteNotFound",
+            "Ruta no encontrada.",
+            ErrorType.NotFound);
+
+        public static readonly Error InvalidRouteStart = new(
+            "Delivery.InvalidRouteStart",
+            "Solo se puede iniciar una ruta en estado 'Planned'.",
+            ErrorType.Failure);
+
+        public static readonly Error InvalidRouteComplete = new(
+            "Delivery.InvalidRouteComplete",
+            "Solo se puede completar una ruta en estado 'InProgress'.",
+            ErrorType.Failure);
+
+        public static readonly Error InvalidRouteCancel = new(
+            "Delivery.InvalidRouteCancel",
+            "No se puede cancelar una ruta completada o ya cancelada.",
+            ErrorType.Failure);
+    }
+}

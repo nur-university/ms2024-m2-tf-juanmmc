@@ -1,0 +1,56 @@
+﻿using LogisticsAndDeliveries.Domain.Deliveries.ValueObjects;
+using LogisticsAndDeliveries.Core.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LogisticsAndDeliveries.Domain.Deliveries
+{
+    public class Delivery : AggregateRoot
+    {
+        public string Name { get; private set; }
+        private readonly List<PackageAssignment> _packageAssignments = new();
+        public IReadOnlyCollection<PackageAssignment> PackageAssignments => _packageAssignments.AsReadOnly();
+        private readonly List<DeliveryLocation> _locations = new();
+        public IReadOnlyCollection<DeliveryLocation> Locations => _locations.AsReadOnly();
+        private readonly List<DeliveryRoute> _routes = new();
+        public IReadOnlyCollection<DeliveryRoute> Routes => _routes.AsReadOnly();
+
+        public Delivery(Guid id, string name) : base(id)
+        {
+            Name = name;
+        }
+
+        public void AssignPackage(Guid packageId, DateTime scheduledDeliveryDate)
+        {
+            if (_packageAssignments.Any(pa => pa.PackageId == packageId && pa.ScheduledDeliveryDate.Date == scheduledDeliveryDate.Date))
+                throw new InvalidOperationException("El paquete ya está asignado para esa fecha.");
+            _packageAssignments.Add(new PackageAssignment(packageId, scheduledDeliveryDate));
+        }
+
+        public void RegisterLocation(double latitude, double longitude, DateTime dateAndTimeOfLocation)
+        {
+            _locations.Add(new DeliveryLocation(latitude, longitude, dateAndTimeOfLocation));
+        }
+
+        public void PlanRoute(Guid routeId, DateTime scheduledDeliveryDate)
+        {
+            var assignmentsForDate = _packageAssignments
+                .Where(pa => pa.ScheduledDeliveryDate.Date == scheduledDeliveryDate.Date)
+                .ToList();
+
+            if (!assignmentsForDate.Any())
+                throw new InvalidOperationException("No hay paquetes asignados para la fecha especificada.");
+
+            if (_routes.Any(r => r.Stops.All(s => assignmentsForDate.Select(a => a.PackageId).Contains(s.PackageId)) && r.Status != DeliveryRouteStatus.Cancelled))
+                throw new InvalidOperationException("Ya existe una ruta planificada para estos paquetes en la fecha especificada.");
+
+            var stops = assignmentsForDate
+                .Select((pa, index) => new DeliveryStop(pa.PackageId, index + 1))
+                .ToList();
+
+            var route = new DeliveryRoute(routeId, DeliveryRouteStatus.Planned, stops);
+            _routes.Add(route);
+        }
+    }
+}

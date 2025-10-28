@@ -1,6 +1,7 @@
 ﻿using LogisticsAndDeliveries.Domain.Deliveries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,43 +21,46 @@ namespace LogisticsAndDeliveries.Infrastructure.Persistence.DomainModel.Config
             builder.Property(d => d.Id)
                 .HasColumnName("id");
 
-            builder.Property(d => d.Name)
-                .HasColumnName("name")
-                .HasMaxLength(200);
+            builder.Property(d => d.PackageId)
+                .HasColumnName("packageId");
 
-            // PackageAssignments como owned collection
-            builder.OwnsMany(d => d.PackageAssignments, pa =>
-            {
-                pa.WithOwner().HasForeignKey("deliveryId");
-                pa.Property<Guid>("id")
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("gen_random_uuid()")
-                    .ValueGeneratedOnAdd(); // Shadow GUID key
-                pa.HasKey("id");
-                pa.Property(p => p.PackageId).HasColumnName("packageId");
-                pa.Property(p => p.ScheduledDate).HasColumnName("scheduledDate");
-                pa.ToTable("packageAssignment");
-            });
+            builder.Property(d => d.DriverId)
+                .HasColumnName("driverId");
 
-            // DeliveryLocation como owned type (puede ser null)
-            builder.OwnsOne(p => p.DeliveryLocation, location =>
-            {
-                location.Property(l => l.Latitude).HasColumnName("locationLatitude");
-                location.Property(l => l.Longitude).HasColumnName("locationLongitude");
-                location.Property(l => l.Date).HasColumnName("locationDate");
-            });
+            builder.Property(d => d.ScheduledDate)
+                .HasColumnName("scheduledDate")
+                .HasColumnType("date");
 
-            // Rutas: relación uno-a-muchos
-            builder.HasMany(d => d.Routes)
-                .WithOne()
-                .HasForeignKey("DeliveryId")
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.Property(d => d.EvidencePhoto)
+                .HasColumnName("evidencePhoto");
 
-            builder.Metadata.FindNavigation(nameof(Delivery.PackageAssignments))
-                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+            var incidentTypeConverter = new ValueConverter<IncidentType, string>(
+                incidentTypeConverter => incidentTypeConverter.ToString(),
+                incidentType => (IncidentType)Enum.Parse(typeof(IncidentType), incidentType)
+            );
 
-            builder.Metadata.FindNavigation(nameof(Delivery.Routes))
-                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(d => d.IncidentType)
+                .HasConversion(incidentTypeConverter)
+                .HasColumnName("incidentType");
+
+            builder.Property(d => d.IncidentDescription)
+                .HasColumnName("incidentDescription");
+
+            builder.Property(d => d.Order)
+                .HasColumnName("order")
+                .HasColumnType("integer");
+
+            var statusConverter = new ValueConverter<DeliveryStatus, string>(
+                statusConverter => statusConverter.ToString(),
+                status => (DeliveryStatus)Enum.Parse(typeof(DeliveryStatus), status)
+            );
+
+            builder.Property(d => d.Status)
+                .HasConversion(statusConverter)
+                .HasColumnName("status");
+
+            builder.Property(d => d.UpdatedAt)
+                .HasColumnName("updatedAt");
 
             builder.Ignore("_domainEvents");
             builder.Ignore(x => x.DomainEvents);

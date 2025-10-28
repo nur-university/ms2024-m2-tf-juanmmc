@@ -1,0 +1,69 @@
+﻿using LogisticsAndDeliveries.Domain.Deliveries;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LogisticsAndDeliveries.Infrastructure.Persistence.DomainModel.Config
+{
+    internal class DeliveryConfig : IEntityTypeConfiguration<Delivery>
+    {
+        public void Configure(EntityTypeBuilder<Delivery> builder)
+        {
+            builder.ToTable("Deliveries");
+
+            builder.HasKey(d => d.Id);
+
+            builder.Property(d => d.Id)
+                .HasColumnName("deliveryId");
+
+            builder.Property(d => d.Name)
+                .HasColumnName("name")
+                .HasMaxLength(200);
+
+            // PackageAssignments como owned collection
+            builder.OwnsMany(d => d.PackageAssignments, pa =>
+            {
+                pa.WithOwner().HasForeignKey("DeliveryId");
+                pa.Property<Guid>("Id"); // Shadow key
+                pa.HasKey("Id");
+                pa.Property(p => p.PackageId).HasColumnName("packageId");
+                pa.Property(p => p.ScheduledDeliveryDate).HasColumnName("scheduledDeliveryDate");
+                pa.ToTable("PackageAssignments");
+            });
+
+            // Locations como owned collection
+            builder.OwnsMany(d => d.Locations, loc =>
+            {
+                loc.WithOwner().HasForeignKey("DeliveryId");
+                loc.Property<Guid>("Id"); // Shadow key
+                loc.HasKey("Id");
+                loc.Property(l => l.Latitude).HasColumnName("latitude");
+                loc.Property(l => l.Longitude).HasColumnName("longitude");
+                loc.Property(l => l.DateAndTimeOfLocation).HasColumnName("dateAndTimeOfLocation");
+                loc.ToTable("DeliveryLocations");
+            });
+
+            // Rutas: relación uno-a-muchos
+            builder.HasMany(d => d.Routes)
+                .WithOne()
+                .HasForeignKey("DeliveryId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Metadata.FindNavigation(nameof(Delivery.PackageAssignments))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Metadata.FindNavigation(nameof(Delivery.Locations))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Metadata.FindNavigation(nameof(Delivery.Routes))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Ignore("_domainEvents");
+            builder.Ignore(x => x.DomainEvents);
+        }
+    }
+}

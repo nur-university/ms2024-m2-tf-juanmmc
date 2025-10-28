@@ -1,15 +1,190 @@
 [
   {
     "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DeliveryController",
-    "Method": "CreateDelivery",
-    "RelativePath": "api/Delivery",
+    "Method": "CancelDelivery",
+    "RelativePath": "api/Delivery/cancel",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "LogisticsAndDeliveries.Application.Deliveries.CreateDelivery.CreateDeliveryCommand",
+        "Type": "LogisticsAndDeliveries.Application.Deliveries.CancelDelivery.CancelDeliveryCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DeliveryController",
+    "Method": "GetDeliveriesByOrder",
+    "RelativePath": "api/Delivery/getDeliveriesByOrder",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "driverId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "scheduledDate",
+        "Type": "System.DateOnly",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DeliveryController",
+    "Method": "GetDelivery",
+    "RelativePath": "api/Delivery/getDelivery",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "deliveryId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DeliveryController",
+    "Method": "MarkDeliveryCompleted",
+    "RelativePath": "api/Delivery/markCompleted",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Deliveries.MarkDeliveryCompleted.MarkDeliveryCompletedCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DeliveryController",
+    "Method": "MarkDeliveryFailed",
+    "RelativePath": "api/Delivery/markFailed",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Deliveries.MarkDeliveryFailed.MarkDeliveryFailedCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DeliveryController",
+    "Method": "MarkDeliveryInTransit",
+    "RelativePath": "api/Delivery/markInTransit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Deliveries.MarkDeliveryInTransit.MarkDeliveryInTransitCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DeliveryController",
+    "Method": "RegisterDeliveryIncident",
+    "RelativePath": "api/Delivery/registerIncident",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Deliveries.RegisterDeliveryIncident.RegisterDeliveryIncidentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DeliveryController",
+    "Method": "SetDeliveryOrder",
+    "RelativePath": "api/Delivery/setDeliveryOrder",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Deliveries.SetDeliveryOrder.SetDeliveryOrderCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DriverController",
+    "Method": "CreateDriver",
+    "RelativePath": "api/Driver/createDriver",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Drivers.CreateDriver.CreateDriverCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DriverController",
+    "Method": "GetDriver",
+    "RelativePath": "api/Driver/getDriver",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "driverId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DriverController",
+    "Method": "GetDrivers",
+    "RelativePath": "api/Driver/getDrivers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.DriverController",
+    "Method": "UpdateDriverLocation",
+    "RelativePath": "api/Driver/updateDriverLocation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LogisticsAndDeliveries.Application.Drivers.UpdateDriverLocation.UpdateDriverLocationCommand",
         "IsRequired": true
       }
     ],
@@ -18,14 +193,14 @@
   {
     "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
     "Method": "CreatePackage",
-    "RelativePath": "api/Package",
+    "RelativePath": "api/Package/createPackage",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "LogisticsAndDeliveries.Application.Packages.CreatePackages.CreatePackageCommand",
+        "Type": "LogisticsAndDeliveries.Application.Packages.CreatePackage.CreatePackageCommand",
         "IsRequired": true
       }
     ],
@@ -33,80 +208,16 @@
   },
   {
     "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
-    "Method": "CancelPackage",
-    "RelativePath": "api/Package/cancel",
-    "HttpMethod": "POST",
+    "Method": "GetPackage",
+    "RelativePath": "api/Package/getPackage",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "LogisticsAndDeliveries.Application.Packages.CancelPackage.CancelPackageCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
-    "Method": "MarkPackageDelivered",
-    "RelativePath": "api/Package/markDelivered",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "LogisticsAndDeliveries.Application.Packages.MarkPackageDelivered.MarkPackageDeliveredCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
-    "Method": "MarkPackageFailed",
-    "RelativePath": "api/Package/markFailed",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "LogisticsAndDeliveries.Application.Packages.MarkPackageFailed.MarkPackageFailedCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
-    "Method": "MarkPackageInTransit",
-    "RelativePath": "api/Package/markInTransit",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "LogisticsAndDeliveries.Application.Packages.MarkPackageInTransit.MarkPackageInTransitCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LogisticsAndDeliveries.WebApi.Controllers.PackageController",
-    "Method": "RegisterPackageDeliveryIncident",
-    "RelativePath": "api/Package/registerIncident",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "LogisticsAndDeliveries.Application.Packages.RegisterPackageDeliveryIncident.RegisterPackageDeliveryIncidentCommand",
-        "IsRequired": true
+        "Name": "packageId",
+        "Type": "System.Guid",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
